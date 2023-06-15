@@ -69,3 +69,10 @@ export const register = async (req: Request, res: Response) => {
 		handleError(500, error.message, res);
 	}
 };
+
+export const logout = (req: Request, res: Response) => {
+	res.clearCookie('access_token');
+	res.json({
+		msg: 'logout',
+	});
+};

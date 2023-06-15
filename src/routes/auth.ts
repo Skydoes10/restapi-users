@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login, register } from '../controllers';
+import { login, logout, register } from '../controllers';
 import { emailExists, validateSchema } from '../middlewares';
 import { loginSchema, registerSchema } from '../schemas';
 
@@ -13,3 +13,5 @@ authRouter.post(
 	emailExists,
 	register
 );
+
+authRouter.get('/logout', logout);
