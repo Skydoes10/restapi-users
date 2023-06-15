@@ -26,5 +26,3 @@ export default class User extends BaseEntity {
 	@CreateDateColumn()
 	createdAt!: Date;
 }
-
-// export const userRepository = connection.getRepository(User);

@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
 
 		const validPassword = await bcrypt.compare(
 			password,
-			user?.password || ''
+			user.password || ''
 		);
 
 		if (!validPassword) {
@@ -31,9 +31,14 @@ export const login = async (req: Request, res: Response) => {
 			email: user.email,
 		});
 
+		res.cookie('access_token', token);
 		res.json({
 			msg: 'login',
-			token,
+			user: {
+				id: user.id,
+				username: user.username,
+				email: user.email,
+			},
 		});
 	} catch (error: any) {
 		handleError(500, error.message, res);
@@ -50,8 +55,7 @@ export const signUp = async (req: Request, res: Response) => {
 			password,
 		});
 
-		const salt = bcrypt.genSaltSync();
-		user.password = bcrypt.hashSync(user.password, salt);
+		user.password = bcrypt.hashSync(user.password, 10);
 
 		await User.save(user);
 
@@ -61,9 +65,14 @@ export const signUp = async (req: Request, res: Response) => {
 			email: user.email,
 		});
 
+		res.cookie('access_token', token);
 		res.json({
 			msg: 'signUp',
-			token,
+			user: {
+				id: user.id,
+				username: user.username,
+				email: user.email,
+			},
 		});
 	} catch (error: any) {
 		handleError(500, error.message, res);

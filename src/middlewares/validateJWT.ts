@@ -6,7 +6,7 @@ export const validateJWT = (
 	res: Response,
 	next: NextFunction
 ) => {
-	const token = req.header('token');
+	const token = req.header('access_token');
 
 	if (!token) {
 		return handleError(401, 'Token is required', res);
