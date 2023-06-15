@@ -1,4 +1,5 @@
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import db from '../db/connection';
 import { authRouter, usersRouter } from '../routes';
@@ -41,6 +42,9 @@ class Server {
 
 		// Body parser
 		this.app.use(express.json());
+
+		// Cookie parser
+		this.app.use(cookieParser());
 	}
 
 	routes() {

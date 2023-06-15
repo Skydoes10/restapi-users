@@ -6,9 +6,9 @@ export const validateJWT = (
 	res: Response,
 	next: NextFunction
 ) => {
-	const token = req.header('access_token');
+	const { access_token } = req.cookies;
 
-	if (!token) {
+	if (!access_token) {
 		return handleError(401, 'Token is required', res);
 	}
 	next();
