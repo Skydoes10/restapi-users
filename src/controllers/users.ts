@@ -62,7 +62,7 @@ export const removeUser = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
 	try {
-		await User.update(id, { status: false });
+		await User.delete(id);
 
 		res.json({
 			msg: 'User removed',
