@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { z } from 'zod';
 import User from '../models/user';
+import { updateUserSchema } from '../schemas';
 import { handleError } from '../utils';
-import { updateUser as update } from '../types/user';
 
 export const getUsers = async (req: Request, res: Response) => {
 	try {
@@ -39,7 +40,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
 	const { id } = req.params;
-	const { username, password }: update = req.body;
+	const { username, password }: z.infer<typeof updateUserSchema> = req.body;
 
 	try {
 		await User.update(id, { username, password });
