@@ -14,4 +14,4 @@ authRouter.post(
 	register
 );
 
-authRouter.get('/logout', logout);
+authRouter.post('/logout', logout);
