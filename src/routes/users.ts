@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getUser, getUsers, removeUser, updateUser } from '../controllers';
-import { userExists, validateJWT } from '../middlewares';
+import { userExists, validateJWT, validateSchema } from '../middlewares';
+import { updateUserSchema } from '../schemas';
 
 export const usersRouter = Router();
 
@@ -12,6 +13,6 @@ usersRouter.use('/:id', userExists);
 
 usersRouter.get('/:id', getUser);
 
-usersRouter.put('/:id', updateUser);
+usersRouter.put('/:id', validateSchema(updateUserSchema), updateUser);
 
 usersRouter.delete('/:id', removeUser);
