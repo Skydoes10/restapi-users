@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { handleError } from '../utils';
 import jwt from 'jsonwebtoken';
-import User from '../models/user';
+import { handleError } from '../utils';
 
 interface CustomRequest extends Request {
-	userId: string;
+	userId?: string;
 }
 
 interface JWTData {
