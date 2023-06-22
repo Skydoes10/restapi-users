@@ -24,3 +24,13 @@ export const updateUserSchema = z.object({
 		})
 		.optional(),
 });
+
+export const userIdSchema = z.object({
+	id: z
+		.string({
+			required_error: 'Id is required',
+		})
+		.uuid({
+			message: 'Id must be a valid uuid',
+		}),
+});
