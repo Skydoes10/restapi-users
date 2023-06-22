@@ -38,7 +38,12 @@ class Server {
 
 	middlewares() {
 		// CORS
-		this.app.use(cors());
+		this.app.use(
+			cors({
+				origin: process.env.DEV_CLIENT_URL,
+				credentials: true,
+			})
+		);
 
 		// Body parser
 		this.app.use(express.json());
