@@ -25,7 +25,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 	try {
 		const user = await User.findOne({
-			where: { id },
+			where: { id, status: true },
 			select: ['id', 'username', 'email', 'createdAt'],
 		});
 
@@ -62,7 +62,7 @@ export const removeUser = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
 	try {
-		await User.delete(id);
+		await User.update(id, { status: false });
 
 		res.json({
 			msg: 'User removed',
