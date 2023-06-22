@@ -10,7 +10,7 @@ export const userExists = async (
 	const { id } = req.params;
 	try {
 		const user = await User.findOne({
-			where: { id },
+			where: { id, status: true },
 		});
 
 		if (!user) return handleError(404, 'User not found', res);
@@ -30,7 +30,7 @@ export const emailExists = async (
 	const { email } = req.body;
 	try {
 		const user = await User.findOne({
-			where: { email },
+			where: { email, status: true },
 		});
 
 		if (user) return handleError(400, 'Email already exists', res);
