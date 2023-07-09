@@ -1,8 +1,8 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import db from '../db/connection';
-import { authRouter, usersRouter } from '../routes';
+import db from './db/connection';
+import { authRouter, usersRouter } from './routes';
 
 class Server {
 	private app: express.Application;
