@@ -41,3 +41,23 @@ export const emailExists = async (
 		handleError(500, error.message, res);
 	}
 };
+
+export const usernameExists = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const { username } = req.body;
+	try {
+		const user = await User.findOne({
+			where: { username, status: true },
+		});
+
+		if (user) return handleError(400, 'Username already exists', res);
+
+		next();
+	} catch (error: any) {
+		console.error(error);
+		handleError(500, error.message, res);
+	}
+};
