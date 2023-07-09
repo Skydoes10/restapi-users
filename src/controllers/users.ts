@@ -12,7 +12,7 @@ export const getUsers = async (req: Request, res: Response) => {
 		});
 
 		res.json({
-			msg: 'getUsers',
+			msg: 'Ok',
 			users,
 		});
 	} catch (error: any) {
@@ -30,7 +30,7 @@ export const getUser = async (req: Request, res: Response) => {
 		});
 
 		res.json({
-			msg: 'getUser',
+			msg: 'Ok',
 			user,
 		});
 	} catch (error: any) {
@@ -50,7 +50,7 @@ export const updateUser = async (req: Request, res: Response) => {
 		});
 
 		res.json({
-			msg: 'User updated',
+			msg: 'Ok',
 			user,
 		});
 	} catch (error: any) {
@@ -65,7 +65,7 @@ export const removeUser = async (req: Request, res: Response) => {
 		await User.update(id, { status: false });
 
 		res.json({
-			msg: 'User removed',
+			msg: 'Ok',
 		});
 	} catch (error: any) {
 		handleError(500, error.message, res);
