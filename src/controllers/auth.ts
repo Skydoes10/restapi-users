@@ -25,7 +25,7 @@ export const login = async (req: Request, res: Response) => {
 
 		res.cookie('access_token', token);
 		res.json({
-			msg: 'login',
+			msg: 'Ok',
 			user: {
 				id: user.id,
 				username: user.username,
@@ -58,7 +58,7 @@ export const register = async (req: Request, res: Response) => {
 
 		res.cookie('access_token', token);
 		res.json({
-			msg: 'signUp',
+			msg: 'Ok',
 			user: {
 				id: user.id,
 				username: user.username,
@@ -73,6 +73,6 @@ export const register = async (req: Request, res: Response) => {
 export const logout = (req: Request, res: Response) => {
 	res.clearCookie('access_token');
 	res.json({
-		msg: 'logout',
+		msg: 'Ok',
 	});
 };
