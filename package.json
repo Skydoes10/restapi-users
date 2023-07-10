@@ -4,8 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "tsc && node build/index.js",
-		"dev": "nodemon src/index.ts"
+		"test": "jest --watch",
+		"start": "tsc && node ./dist/index.js",
+		"dev": "nodemon ./src/index.ts"
 	},
 	"keywords": [],
 	"author": "",
@@ -18,7 +19,9 @@
 		"@types/jest": "^29.5.2",
 		"@types/jsonwebtoken": "^9.0.2",
 		"@types/node": "^20.1.1",
+		"@types/supertest": "^2.0.12",
 		"prettier": "2.8.8",
+		"supertest": "^6.3.3",
 		"ts-jest": "^29.1.1",
 		"typescript": "^5.0.4"
 	},
