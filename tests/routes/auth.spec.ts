@@ -21,6 +21,7 @@ beforeAll(async () => {
 
 afterAll((done) => {
 	server.close(done);
+	connection.destroy();
 });
 
 const initDatabase = async () => {
