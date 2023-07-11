@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import User from '../models/user';
@@ -8,7 +9,7 @@ export const getUsers = async (req: Request, res: Response) => {
 	try {
 		const users = await User.find({
 			where: { status: true },
-			select: ['id', 'username', 'email', 'createdAt'],
+			select: ['id', 'username', 'email'],
 		});
 
 		res.json({
@@ -26,7 +27,7 @@ export const getUser = async (req: Request, res: Response) => {
 	try {
 		const user = await User.findOne({
 			where: { id, status: true },
-			select: ['id', 'username', 'email', 'createdAt'],
+			select: ['id', 'username', 'email'],
 		});
 
 		res.json({
@@ -43,15 +44,46 @@ export const updateUser = async (req: Request, res: Response) => {
 	const { username, password }: z.infer<typeof updateUserSchema> = req.body;
 
 	try {
-		await User.update(id, { username, password });
 		const user = await User.findOne({
+			where: { id, status: true },
+		});
+
+		if (password) {
+			const isPasswordValid = await bcrypt.compare(
+				password,
+				user!.password
+			);
+
+			if (isPasswordValid) {
+				return handleError(400, 'Password is invalid', res);
+			}
+
+			const salt = await bcrypt.genSalt(10);
+			const newPassword = await bcrypt.hash(password, salt);
+
+			await User.update(id, { password: newPassword });
+		}
+
+		if (username) {
+			const isUsernameInUse = await User.findOne({
+				where: { username },
+			});
+
+			if (isUsernameInUse) {
+				return handleError(400, 'Username is already in use', res);
+			}
+
+			await User.update(id, { username });
+		}
+
+		const userUpdated = await User.findOne({
 			where: { id },
-			select: ['id', 'username', 'email', 'createdAt'],
+			select: ['id', 'username', 'email'],
 		});
 
 		res.json({
 			msg: 'Ok',
-			user,
+			user: userUpdated,
 		});
 	} catch (error: any) {
 		handleError(500, error.message, res);

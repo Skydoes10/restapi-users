@@ -13,11 +13,11 @@ export const login = async (req: Request, res: Response) => {
 			where: { email: email, status: true },
 		});
 
-		if (!user) return handleError(404, 'User not found', res);
+		if (!user) return handleError(400, 'Invalid credentials', res);
 
 		const validPassword = await bcrypt.compare(password, user.password);
 
-		if (!validPassword) return handleError(400, 'Invalid password', res);
+		if (!validPassword) return handleError(400, 'Invalid credentials', res);
 
 		const token = await generateJWT({
 			id: user.id,

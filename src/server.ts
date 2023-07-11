@@ -1,11 +1,13 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
+import http from 'http';
 import db from './db/connection';
 import { authRouter, usersRouter } from './routes';
 
 class Server {
 	private app: express.Application;
+	private server: http.Server | undefined;
 	private port: string;
 	private apiPaths = {
 		auth: '/api/auth',
@@ -57,10 +59,20 @@ class Server {
 		this.app.use(this.apiPaths.users, usersRouter);
 	}
 
+	getApp() {
+		return this.app;
+	}
+
 	start() {
-		this.app.listen(this.port, () => {
+		this.server = this.app.listen(this.port, () => {
 			console.log(`Server listening on port ${this.port}`);
 		});
+	}
+
+	close(callback: () => void) {
+		if (this.server) {
+			this.server.close(callback);
+		}
 	}
 }
 
