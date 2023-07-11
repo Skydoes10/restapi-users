@@ -1,4 +1,5 @@
 node_modules/
 jest.config.js
-.env
+.env.dev
+.env.test
 dist
