@@ -1,15 +1,16 @@
 import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
+import fs from 'node:fs';
 import { z } from 'zod';
 import User from '../models/user';
 import { updateUserSchema } from '../schemas';
-import { handleError } from '../utils';
+import { deleteFile, handleError, uploadFile } from '../utils';
 
 export const getUsers = async (req: Request, res: Response) => {
 	try {
 		const users = await User.find({
 			where: { status: true },
-			select: ['id', 'username', 'email'],
+			select: ['id', 'username', 'email', 'avatar'],
 		});
 
 		res.json({
@@ -27,7 +28,7 @@ export const getUser = async (req: Request, res: Response) => {
 	try {
 		const user = await User.findOne({
 			where: { id, status: true },
-			select: ['id', 'username', 'email'],
+			select: ['id', 'username', 'email', 'avatar'],
 		});
 
 		res.json({
@@ -42,6 +43,7 @@ export const getUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const { username, password }: z.infer<typeof updateUserSchema> = req.body;
+	const avatar = req.file;
 
 	try {
 		const user = await User.findOne({
@@ -76,9 +78,19 @@ export const updateUser = async (req: Request, res: Response) => {
 			await User.update(id, { username });
 		}
 
+		if (avatar) {
+			const publicId = user!.avatar.split('/').pop()?.split('.')[0];
+			await deleteFile(publicId!, 'users');
+
+			const { url } = await uploadFile(avatar.path, 'users');
+			await User.update(id, { avatar: url });
+
+			fs.unlinkSync(avatar.path);
+		}
+
 		const userUpdated = await User.findOne({
 			where: { id },
-			select: ['id', 'username', 'email'],
+			select: ['id', 'username', 'email', 'avatar'],
 		});
 
 		res.json({

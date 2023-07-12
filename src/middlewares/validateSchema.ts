@@ -9,6 +9,7 @@ export const validateSchema =
 			schema.parse({
 				...req.body,
 				...req.params,
+				...req.file,
 			});
 			next();
 		} catch (error: any) {

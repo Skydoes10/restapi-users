@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import morgan from 'morgan';
 import db from './db/connection';
 import { authRouter, usersRouter } from './routes';
 
@@ -52,6 +53,9 @@ class Server {
 
 		// Cookie parser
 		this.app.use(cookieParser());
+
+		// Morgan
+		this.app.use(morgan('dev'));
 	}
 
 	routes() {

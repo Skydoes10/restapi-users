@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
+import path from 'path';
 import { z } from 'zod';
 import User from '../models/user';
 import { loginSchema, registerSchema } from '../schemas';
-import { generateJWT, handleError } from '../utils';
+import { generateJWT, handleError, uploadFile } from '../utils';
 
 export const login = async (req: Request, res: Response) => {
 	const { email, password }: z.infer<typeof loginSchema> = req.body;
@@ -30,6 +31,7 @@ export const login = async (req: Request, res: Response) => {
 				id: user.id,
 				username: user.username,
 				email: user.email,
+				avatar: user.avatar,
 			},
 		});
 	} catch (error: any) {
@@ -42,10 +44,17 @@ export const register = async (req: Request, res: Response) => {
 		req.body;
 
 	try {
+		const pathDefaultAvatar = path.join(
+			__dirname,
+			'../assets/default-avatar.jpg'
+		);
+		const avatar = await uploadFile(pathDefaultAvatar, 'users');
+
 		const user = User.create({
 			username,
 			email,
 			password,
+			avatar: avatar.url,
 		});
 
 		user.password = bcrypt.hashSync(user.password, 10);
@@ -63,6 +72,7 @@ export const register = async (req: Request, res: Response) => {
 				id: user.id,
 				username: user.username,
 				email: user.email,
+				avatar: user.avatar,
 			},
 		});
 	} catch (error: any) {
