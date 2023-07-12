@@ -20,6 +20,9 @@ export default class User extends BaseEntity {
 	@Column()
 	password!: string;
 
+	@Column()
+	avatar!: string;
+
 	@Column({ default: true })
 	status!: boolean;
 
