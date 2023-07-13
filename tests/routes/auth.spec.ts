@@ -3,6 +3,7 @@ import request from 'supertest';
 import connection from '../../src/db/connection';
 import User from '../../src/models/user';
 import Server from '../../src/server';
+import path from 'path';
 
 let server: Server;
 
@@ -27,16 +28,19 @@ afterAll((done) => {
 const initDatabase = async () => {
 	const users = [
 		{
+			avatar: path.join(__dirname, '../../src/assets/default-avatar.jpg'),
 			username: 'test1',
 			email: 'test1@gmail.com',
 			password: 'test123',
 		},
 		{
+			avatar: path.join(__dirname, '../../src/assets/default-avatar.jpg'),
 			username: 'test2',
 			email: 'test2@gmail.com',
 			password: 'test123',
 		},
 		{
+			avatar: path.join(__dirname, '../../src/assets/default-avatar.jpg'),
 			username: 'test3',
 			email: 'test3@gmail.com',
 			password: 'test123',
