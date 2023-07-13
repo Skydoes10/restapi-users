@@ -1,15 +1,25 @@
 {
 	"name": "restapi-users",
 	"version": "1.0.0",
-	"description": "",
+	"description": "A REST API for users with auth and image upload",
 	"main": "index.js",
 	"scripts": {
-		"test": "set NODE_ENV=test&& jest --watch --verbose --detectOpenHandles",
-		"start": "tsc && node ./dist/index.js",
+		"test": "set NODE_ENV=test&& jest --watchAll --verbose --detectOpenHandles",
+		"start": "set NODE_ENV=prod&& tsc && node ./dist/index.js",
 		"dev": "set NODE_ENV=dev&& nodemon ./src/index.ts"
 	},
-	"keywords": [],
-	"author": "",
+	"keywords": [
+		"restapi",
+		"users",
+		"typescript",
+		"nodejs",
+		"express",
+		"typeorm",
+		"postgres",
+		"jwt",
+		"cloudinary"
+	],
+	"author": "Skydoes10",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.2",
