@@ -43,7 +43,7 @@ Make sure you have the following installed on your system:
     npm run dev
     ```
 
-2. The server will be available at http://localhost:(Specified Port). You can send HTTP requests to the API using tools like cURL, Postman, etc.
+2. The server will be available at http://localhost:PORT. You can send HTTP requests to the API using tools like cURL, Postman, etc.
 
 ## Endpoints
 
