@@ -4,9 +4,9 @@
 
 Make sure you have the following installed on your system:
 
--   Node.js (version 20)
--   npm (version 9.8.0)
--   PostgreSQL (version 15)
+-   Node.js v20
+-   npm v9.8.0
+-   PostgreSQL v15
 
 ## Setup
 
