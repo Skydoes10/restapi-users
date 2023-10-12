@@ -1,0 +1,256 @@
+openapi: 3.0.3
+info:
+  title: User management API
+  description: This API handles authentication and user management
+  version: 1.0.0
+servers:
+  - url: a
+tags:
+  - name: auth
+    description: Authentication operations
+  - name: users
+    description: Operations about users
+    
+    
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register user into the system
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          headers:
+            access_token:
+              description: Authentication token
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: username/email already exists
+        '500':
+          description: Internal server error
+          
+                
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Logs user into the system
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          headers:
+            access_token:
+              description: Authentication token
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username/password supplied
+        '500':
+          description: Internal server error
+          
+          
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logs out current logged in user session
+      parameters:
+        - $ref: '#/components/parameters/Token'
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Anauthorized operation
+        '500':
+          description: Internal server error
+          
+          
+  /users/:
+    get:
+      tags:
+        - users
+      summary: Get all users
+      parameters:
+        - $ref: '#/components/parameters/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+          
+  
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Get user by user id
+      parameters:
+        - $ref: '#/components/parameters/Token'
+        - name: id
+          in: path
+          description: The id that needs to be fetched
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    put:
+      tags:
+        - users
+      summary: Update user
+      parameters:
+        - $ref: '#/components/parameters/Token'
+        - name: id
+          in: path
+          description: id that need to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserToUpdate'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid id/username/password supplied
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      parameters:
+        - $ref: '#/components/parameters/Token'
+        - name: id
+          in: path
+          description: The id that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+          
+          
+components:
+  parameters:
+    Token:
+      name: access_token
+      in: header
+      description: Authentication token
+      required: true
+      schema:
+        type: string
+        
+  schemas:
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username for register
+        email:
+          type: string
+          description: The email for register
+        password:
+          type: string
+          description: The password for register
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email for login
+        password:
+          type: string
+          description: The password for login
+    User:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: successful operation
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              description: user's id
+            username:
+              type: string
+              description: username
+            email:
+              type: string
+              description: user's email
+            avatar:
+              type: string
+              description: user's avatar
+    UserToUpdate:
+      type: object
+      properties:
+          username:
+            type: string
+            description: The username for update
+          password:
+            type: string
+            description: The password for register

@@ -1,5 +1,5 @@
 {
-	"name": "restapi-users",
+	"name": "user-management-api",
 	"version": "1.0.0",
 	"description": "A REST API for users with auth and image upload",
 	"main": "index.js",

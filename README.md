@@ -1,4 +1,4 @@
-# RESTAPI - CRUD Users and Auth
+# User management API
 
 ## Prerequisites
 
